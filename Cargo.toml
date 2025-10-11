@@ -1,0 +1,12 @@
+[package]
+name = "compax"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "cx"
+path = "src/main.rs"
+#required-features = ["cli"]
+
+[dependencies]
+tar = "0.4.44"
