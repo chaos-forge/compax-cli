@@ -28,3 +28,4 @@ fn main() {
 
     println!("Successfully create {}", &args.output);
 }
+
