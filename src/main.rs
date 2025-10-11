@@ -1,12 +1,30 @@
-use std::fs::File;
+use clap::Parser;
 
-use tar::Builder;
+mod pack;
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let file = File::create("foo.tar")?;
-    let mut tar = Builder::new(file);
-    tar.append_dir_all("", "./src")?;
-    tar.finish()?;
-    
-    Ok(())
+#[derive(Parser, Debug)]
+#[command(name = "compax", author, version, about = "Compress and Decompress in all format", long_about = None)]
+struct Args {
+    ///Directory to archive
+    #[arg(short)]
+    input: String,
+
+    ///Output archive file
+    #[arg(short)]
+    output: String
+}
+fn main() {
+    let args = Args::parse();
+
+    if let Err(e) = pack::tar(&args.input, &args.output) {
+        eprintln!("tar creating error {}", e);
+        return;
+    }
+
+    if let Err(e) = pack::zst(&args.input, &args.output) {
+        eprintln!("zst creating error {}", e);
+        return;
+    }
+
+    println!("Successfully create {}", &args.output);
 }
