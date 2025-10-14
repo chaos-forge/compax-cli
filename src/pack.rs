@@ -24,7 +24,7 @@ pub fn xz(input: &str, output: &str) -> Result<(), Box<dyn Error>> {
 
 pub fn zst(input: &str, output: &str) -> Result<(), Box<dyn Error>> {
     let file_output = File::create(output)?;
-    let encode = Encoder::new(file_output, 22)?;
+    let encode = Encoder::new(file_output, 19)?;
     let mut tar = Builder::new(encode);
     tar.append_dir_all("", input)?;
     let encode = tar.into_inner()?;
