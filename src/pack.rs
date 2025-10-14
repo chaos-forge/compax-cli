@@ -14,11 +14,11 @@ use sevenz_rust::SevenZWriter;
 
 pub fn xz(input: &str, output: &str) -> Result<(), Box<dyn Error>> {
     let file_output = File::create(output)?;
-    let xzencode = XzEncoder::new(file_output, 9);
-    let mut tar = Builder::new(xzencode);
+    let xz_encode = XzEncoder::new(file_output, 9);
+    let mut tar = Builder::new(xz_encode);
     tar.append_dir_all("", input)?;
-    let xzencode = tar.into_inner()?;
-    xzencode.finish()?;
+    let xz_encode = tar.into_inner()?;
+    xz_encode.finish()?;
     Ok(())
 }
 
@@ -34,21 +34,21 @@ pub fn zst(input: &str, output: &str) -> Result<(), Box<dyn Error>> {
 
 pub fn gz(input: &str, output: &str) -> Result<(), Box<dyn Error>> {
     let file_output = File::create(output)?;
-    let gzencode = GzEncoder::new(file_output, GzCompression::best());
-    let mut tar = Builder::new(gzencode);
+    let gz_encode = GzEncoder::new(file_output, GzCompression::best());
+    let mut tar = Builder::new(gz_encode);
     tar.append_dir_all("", input)?;
-    let gzencode = tar.into_inner()?;
-    gzencode.finish()?;
+    let gz_encode = tar.into_inner()?;
+    gz_encode.finish()?;
     Ok(())
 }
 
 pub fn bz2(input: &str, output: &str) -> Result<(), Box<dyn Error>> {
     let file_output = File::create(output)?;
-    let bz2encode = BzEncoder::new(file_output, BzCompression::best());
-    let mut tar = Builder::new(bz2encode);
+    let bz2_encode = BzEncoder::new(file_output, BzCompression::best());
+    let mut tar = Builder::new(bz2_encode);
     tar.append_dir_all("", input)?;
-    let bz2encode = tar.into_inner()?;
-    bz2encode.finish()?;
+    let bz2_encode = tar.into_inner()?;
+    bz2_encode.finish()?;
     Ok(())
 }
 
