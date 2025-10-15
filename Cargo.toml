@@ -1,0 +1,17 @@
+[package]
+name = "compax-cli"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "cx"
+path = "src/cli.rs"
+
+[dependencies]
+bzip2 = "0.6.0"
+clap = { version = "4.5.48", features = ["derive"] }
+flate2 = "1.1.4"
+sevenz-rust = "0.6.1"
+tar = "0.4.44"
+xz2 = "0.1.7"
+zstd = "0.13.3"
