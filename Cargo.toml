@@ -5,8 +5,7 @@ edition = "2024"
 
 [[bin]]
 name = "cx"
-path = "src/main.rs"
-#required-features = ["cli"]
+path = "src/cli.rs"
 
 [dependencies]
 bzip2 = "0.6.0"
