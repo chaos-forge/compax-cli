@@ -1,8 +1,10 @@
 use clap::{Arg, Command};
 use std::error::Error;
 use std::path::Path;
+use std::process;
 
 mod pack;
+mod unpack;
 use pack::{CompressionFormat, xz, gz, zst, bz2, sevenz};
 
 fn main() -> Result<(), Box<dyn Error>> {
@@ -26,6 +28,22 @@ fn main() -> Result<(), Box<dyn Error>> {
                         .index(2)
                 )
         )
+        .subcommand(
+            Command::new("d")
+                .about("Decompress an archive file")
+                .arg(
+                    Arg::new("input")
+                        .help("The input archive file to decompress")
+                        .required(true)
+                        .index(1),
+                )
+                .arg(
+                    Arg::new("output")
+                        .help("The output directory to extract to")
+                        .required(true)
+                        .index(2),
+                )
+        )    
         .get_matches();
 
     if let Some(matches) = matches.subcommand_matches("c") {
@@ -75,6 +93,18 @@ fn main() -> Result<(), Box<dyn Error>> {
         }
 
         println!("Successfully created '{}'", output_path);
+    }
+
+    else if let Some(matches) = matches.subcommand_matches("d") {
+        let input = matches.get_one::<String>("input").unwrap();
+        let output = matches.get_one::<String>("output").unwrap();
+
+        if let Err(e) = unpack::decompress_any(input, output) {
+            eprintln!("Error decompressing file: {}", e);
+            process::exit(1);
+        }
+        
+        println!("Successfully decompressed '{}' to '{}'", input, output);
     }
 
     Ok(())
